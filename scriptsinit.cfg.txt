@@ -1,0 +1,9 @@
+#cloud-config
+
+ repo_update: true //update repo
+ repo_upgrade: all //upgrade all packages
+packages:
+-docker.io//install docker io 
+-lvm2 //linux volume manager it creates my devices
+
+output:all: '| tee -a/var/log/cloud-init-output.log'

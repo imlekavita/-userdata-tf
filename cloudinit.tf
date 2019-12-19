@@ -1,0 +1,28 @@
+provider "cloudinit"{}
+
+data "template_file" "init-script" {
+template = "${file("script/init.cfg")}"
+var{
+REGION ="${var.AWS_REGION}"//pass variable
+   }
+}
+data "template_file" "shell-script" {
+template = "${file("script/volume.sh")}"
+var{
+DEVICE ="${var.INSTANCE_DEVICE_NAME}"//asvariable to shell script
+   }
+} 
+
+data "template_cloudinit_config" "cloudinit-example"{
+
+gzip = false
+base64_encode = false
+
+
+part {
+filename = "init.cfg"
+content_type ="text/cloud-config"//text file
+content = "${data.template_file.shell-script.rendered}"
+
+}
+} 
